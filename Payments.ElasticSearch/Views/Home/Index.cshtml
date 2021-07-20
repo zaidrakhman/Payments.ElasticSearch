@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Payments.ElasticSearch.Entities.Payment>
+@{
+    int currentPage = int.Parse(ViewContext.RouteData.Values["page"] as string ?? "0");
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Payments ElasticSearch</h1>
+</div>
+<div class="row">
+    <div class="col-sm-4">
+        <div class="btn-group">
+            <button class="btn btn-primary btn-sm btn-payment-import">Import Payments</button>
+            <button class="btn btn-warning btn-sm btn-payment-reindex">ReIndex Payments</button>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="row">
+    <div class="col-12">
+        <input id="txt-payment-search" class="form-control form-control-sm" type="text" placeholder="Search" />
+        <div class="search-result box-shadow">
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<div class="row">
+    <div class="col-12">
+        <h3>Payments</h3>
+    </div>
+    <div class="col-sm-4">
+        <div class="btn-group">
+            <button class="btn btn-success btn-sm btn-product-create">New Payment</button>
+        </div>
+    </div>
+    <div class="col-12">
+
+        <table class="table table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>ReleaseDate</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var payment in Model)
+                {
+                    <tr>
+                        <td>
+                            <a class="text-dark btn-product-edit" href="#" data-id="@payment.Id">Edit</a>
+                            <a class="text-dark btn-product-delete" href="#" data-id="@payment.Id">Delete</a>
+                        </td>
+                        <td>
+                            @payment.Id
+                        </td>
+                        <td>
+                            @payment.Name
+                        </td>
+                        <td>
+                            @payment.Category
+                        </td>
+                        <td>
+                            @payment.Description
+                        </td>
+                        <td>
+                            @payment.ReleaseDate
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <nav class="pagination container" aria-label="Pagination">
+            @if (Model.Any())
+            {
+                <a rel="prev" href="@ViewData["prev"]" title="Previous page">&laquo; Older</a>
+            }
+            @if (currentPage > 0)
+            {
+                <a rel="next" href="@ViewData["next"]" title="Next page">Newer &raquo;</a>
+            }
+            <br /><br />
+            @section Head {
+                @if (Model.Any())
+                {
+                    <link rel="prev" href="@ViewData["prev"]" />
+                }
+                @if (currentPage > 0)
+                {
+                    <link rel="next" href="@ViewData["next"]" />
+                }
+            }
+        </nav>
+    </div>
+</div>
+@section Scripts{
+
+}
